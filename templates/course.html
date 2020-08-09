@@ -1,0 +1,15 @@
+<a href="/courses">Takaisin kursseihin</a>
+<br>
+{{ title }}
+<br>
+<br>
+{{ content }}
+<br>
+<br>
+Kurssin materiaalit:
+<ul>
+{% for material in materials %}
+<li><a href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a></li>
+{% endfor %}
+</ul>
+<a href="/course/{{ id }}/createpage">Lisää kurssisivu</a>

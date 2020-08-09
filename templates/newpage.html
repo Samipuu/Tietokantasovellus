@@ -1,0 +1,98 @@
+<head>
+
+</head>
+<form action="/course/{{ id }}/createpage/" method="POST">
+<p>Aihe:
+<input type="text" name="title">
+<br>
+Sisältö:
+<br>
+<div id="materials">
+<textarea name="content" rows="20" cols="50"></textarea>
+<input type="hidden" name="type" value="text">
+</div>
+
+<br>
+
+<input type="button" value="Lisää uusi tekstisisältö" onClick="addfield()">
+<input type="button" value="Lisää tehtävä" onClick="addassignment()">
+<input type="button" value="Poista viimeisin sisältö" onClick="removefield()">
+<br>
+<input type="submit" value="Luo sivu">
+<input type="hidden" name="id" value="{{ id }}">
+</p>
+
+<script>
+function addfield() {
+	var materials = document.getElementById("materials");
+	var newfield = document.createElement("TEXTAREA");
+	var linebreak = document.createElement("br");
+	var type = document.createElement("input");
+	newfield.setAttribute("name", "content");
+	newfield.setAttribute("rows", "20");
+	newfield.setAttribute("cols", "50");
+	type.setAttribute("type", "hidden");
+	type.setAttribute("name", "type");
+	type.setAttribute("value", "text");
+	materials.appendChild(linebreak);
+	materials.appendChild(newfield);
+	materials.appendChild(type);
+}
+function removefield() {
+	var materials = document.getElementById("materials");
+	materials.removeChild(materials.lastChild);
+	materials.removeChild(materials.lastChild);
+	materials.removeChild(materials.lastChild);
+}
+function addassignment() {
+	let list = [];
+	var assignment = document.createElement("div");
+	assignment.setAttribute("name", "assignment");
+	var title = document.createElement("INPUT");
+	title.setAttribute("type", "text");
+	title.setAttribute("name", "qtitle");
+	var question = document.createElement("TEXTAREA");
+	question.setAttribute("cols", "50");
+	question.setAttribute("rows", "5");
+	question.setAttribute("name", "question");
+	var answer = document.createElement("SELECT");
+	answer.appendChild(new Option("1"));
+	answer.appendChild(new Option("2"));
+	answer.appendChild(new Option("3"));
+	answer.setAttribute("name", "answer");
+	var answer1 = document.createElement("INPUT");
+	var answer2 = document.createElement("INPUT");
+	var answer3 = document.createElement("INPUT");
+	answer1.setAttribute("type", "text");
+	answer1.setAttribute("name", "answeropt");
+	answer2.setAttribute("type", "text");
+	answer2.setAttribute("name", "answeropt");
+	answer3.setAttribute("type", "text");	
+	answer3.setAttribute("name", "answeropt");
+	assignment.appendChild(document.createTextNode("Otsikko:"));
+	assignment.appendChild(title);
+	assignment.appendChild(document.createElement("br"));
+	assignment.appendChild(document.createTextNode("Tehtävänanto:"));
+	assignment.appendChild(document.createElement("br"));
+	assignment.appendChild(question);
+	assignment.appendChild(document.createElement("br"));
+	assignment.appendChild(document.createTextNode("Vastaus"));
+	assignment.appendChild(answer);
+	assignment.appendChild(document.createElement("br"));
+	assignment.appendChild(document.createTextNode("Vaihtoehto 1"));
+	assignment.appendChild(answer1);
+	assignment.appendChild(document.createElement("br"));
+	assignment.appendChild(document.createTextNode("Vaihtoehto 2"));
+	assignment.appendChild(answer2);
+	assignment.appendChild(document.createElement("br"));
+	assignment.appendChild(document.createTextNode("Vaihtoehto 3"));
+	assignment.appendChild(answer3);
+	var type = document.createElement("input");
+	type.setAttribute("type", "hidden");
+	type.setAttribute("name", "type");
+	type.setAttribute("value", "assignment");
+	materials.appendChild(assignment);
+	materials.appendChild(type);
+	materials.appendChild(document.createElement("br"));
+}
+</script>

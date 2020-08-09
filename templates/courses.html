@@ -1,0 +1,7 @@
+<h1>Kurssit</h1>
+<a href="/newcourse">Luo kurssi</a>
+<br>
+{% for course in courses %}
+<a href="/course/{{ course[0] }}">{{ course[1] }}</a>
+<br>
+{% endfor %}
