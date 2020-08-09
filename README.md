@@ -1,6 +1,6 @@
 # Opetussovellus
 
-Opetussovellus it-alan ensimmäisen tason tukitehtäviin. ServiceDesk tehtävien opettussovellus. Tarkoituksena tarjota työelämän tukitehtävissä aloittaville perusteet tiketöinnistä ja it-ongelmien ratkonnan perusteista. 
+Opetussovellus johon opettaja tunnuksilla omaavat voivat tehdä kursseja. Kaikki voivat vapaasti liittyä. 
 
 ## Toiminnallisuudet
 
@@ -26,3 +26,6 @@ Opetussovellus it-alan ensimmäisen tason tukitehtäviin. ServiceDesk tehtävien
 * Oikeuksien hallinta
 * Kaikkien kurssien hallinta
 
+### Nykytilanne
+
+Sovellukseen voi luoda kursseja ja luoda sen alle sivuja joissa on tekstisisältöä.
