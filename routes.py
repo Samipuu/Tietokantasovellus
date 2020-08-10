@@ -51,5 +51,5 @@ def course_material(id, mid):
 	course_id = id
 	page_id = mid
 	material = db.get_material(course_id, page_id)
-	assignments = db.get_assignments(course_id, page_id)
+	#assignments = db.get_assignments(course_id, page_id)
 	return render_template("material.html", id=course_id, content=material)
