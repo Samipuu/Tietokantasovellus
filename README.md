@@ -36,6 +36,8 @@ Sovelluksen ulkoasu on vielä keskeneräinen.
 
 Oppilastason testausta voi tehdä luomalla tunnuksen etusivulla.
 
+Opettaja / Ohjaaja tason testausta nostamalla luodun tunnuksen tasoa admin tunnuksella hallinnan kautta. 
+
 Admin testausta tunnuksella:
 Tunnus admin
 Salasana admin
