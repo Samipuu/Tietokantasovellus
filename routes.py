@@ -65,14 +65,19 @@ def create_course():
 
 @app.route("/course/<int:id>")
 def course(id):
-   course = db.get_course(id)
-   title = course[0][0]
-   content = course[0][1]
-   material = db.get_materials(id)
-   owner = False
-   if session.get("username") is not None:
-       owner = db.check_owner(id, session["username"])
-   return render_template("course.html", id=id, title=title, content=content, materials = material, owner = owner)
+    course = db.get_course(id)
+    title = course[0][0]
+    content = course[0][1]
+    material = db.get_materials(id)
+    owner = False
+    if session.get("username") is not None:
+        owner = db.check_owner(id, session["username"])
+        if db.check_access(session.get("username"), id) == False:
+            return redirect("/courses")
+    else:
+        if db.check_access("public", id) == False:
+            return redirect("/courses")
+    return render_template("course.html", id=id, title=title, content=content, materials = material, owner = owner)
 
 @app.route("/course/<int:id>/createpage/", methods=["GET", "POST"])
 def create_page(id):
@@ -102,6 +107,11 @@ def course_material(id, mid):
     answers = {}
     if session.get("username") is not None:
         answers = db.get_page_answers(db.get_user_id(session["username"]), page_id)
+        if db.check_access(session.get("username"), course_id) == False:
+            return redirect("/courses")
+    else:
+        if db.check_access("public", course_id) == False:
+            return redirect("/courses")
     return render_template("material.html", id=course_id, content=material, assignments=assignments, answers=answers, page_id=page_id)
 
 @app.route("/check_answer")
@@ -143,6 +153,15 @@ def modify(course_id, page_id):
         result = db.modify_course_page(title, content, course_id, qtitle, answer, answeropt, question, type, assignment, page_id)
         return redirect("/course/"+str(course_id)+"/"+str(result))
     else:
+        if session.get("username") is not None:
+            if db.check_owner(course_id, session["username"]):
+                rights = True
+            elif db.get_security_level(session["username"]) == 3:
+                rights = True
+            else:
+                return redirect("/")
+        else:
+            return redirect ("/")
         material = db.get_material(page_id)
         assignments = db.get_assignments_modify(page_id)
         return render_template("modify.html", material=material, assignments=assignments, page_id=page_id, course_id=course_id)
@@ -176,6 +195,15 @@ def course_rights(course_id):
         db.add_course_rights(user_list, right_list, course_id)
         return redirect("/course/" + str(course_id) + "/rights")
     else:
+        if session.get("username") is not None:
+            if db.check_owner(course_id, session["username"]):
+                rights = True
+            elif db.get_security_level(session["username"]) == 3:
+                rights = True
+            else:
+                return redirect("/")
+        else:
+            return redirect ("/")
         users = db.get_course_rights(course_id)
         return render_template("course_rights.html", users=users, id=course_id)
 

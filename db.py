@@ -230,3 +230,15 @@ def modify_users(users, rights):
 def get_users():
     users = db.session.execute("SELECT username, security_level FROM users")
     return users
+
+def check_access(username, id):
+    if not username == "public":
+        user_id = get_user_id(username)
+    else:
+        user_id = 0
+    sql = "SELECT can_read FROM course_rights WHERE course_id=:id AND (user_id=:user OR user_id = 0) ORDER BY can_read DESC"
+    result = db.session.execute(sql, {"id":id, "user":user_id})
+    access = result.fetchone()[0]
+    if access == True:
+        return True
+    return False
