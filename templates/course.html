@@ -1,4 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+
 <a href="/courses">Takaisin kursseihin</a>
+<br>
+<a href="/course/{{ id }}/rights">Muokkaa kurssin oikeuksia</a>
 <br>
 {{ title }}
 <br>
@@ -12,4 +18,7 @@ Kurssin materiaalit:
 <li><a href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a></li>
 {% endfor %}
 </ul>
+{% if (owner) or (session.level == 3) %}
 <a href="/course/{{ id }}/createpage">Lisää kurssisivu</a>
+{% endif %}
+{% endblock %}

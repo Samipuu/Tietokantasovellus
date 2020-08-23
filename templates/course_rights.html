@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block title %}Oikeuksien hallinta{% endblock %}
+{% block content %}
+
+<form action="/course/{{ id }}/rights" method="POST">
+<a href="/course/{{ id }}">Takaisin kurssiin</a>
+<br>
+<div id="users">
+{% for user in users %}
+  {% if user.username == None %}
+  Julkinen 
+  <input type="hidden" name="current" value="0">
+  {% elif user.username != None %}
+  {{ user.username }} 
+  <input type="hidden" name="current" value="{{ user.user_id }}">
+  {% endif %}
+  <select name="select">
+    <option value="blocked" {% if user.can_read|string == "False" %}selected{% endif %}>Estetty</option>
+    <option value="read" {% if user.can_read|string == "True" %}selected{% endif %}>Luku</option>
+  </select>
+  <br>
+{% endfor %}
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+      <br>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</div>
+
+
+<input type="button" value="Lisää käyttäjä" onClick="adduser()">
+<input type="submit" value="Tallenna">
+
+
+
+<script>
+function adduser() {
+  var div = document.getElementById("users");
+  var newuser = document.createElement("textarea");
+  newuser.setAttribute("name", "newuser");
+  var right = document.createElement("SELECT");
+  right.setAttribute("name", "right");
+  right.appendChild(new Option("Estetty"));
+  right.appendChild(new Option("Luku"));
+  div.appendChild(newuser);
+  div.appendChild(right);
+  div.appendChild(document.createElement("br"));
+}
+</script>
+
+{% endblock %}

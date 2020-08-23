@@ -1,0 +1,33 @@
+<!doctype html>
+<title>Kurssipilvi - {% block title %}{% endblock %}</title>
+{% if session.username %}
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+
+  {% if session.level == 3 %}
+    <br>
+    <a href="/adminpage">Hallitse käyttäjätilejä</a>
+  {% endif %}
+{% else %}
+<form action="/login" method="POST">
+<p>Tunnus: 
+<input type="text" name="username"></p>
+<p>Salasana:
+<input type="password" name="password"></p>
+<input type="submit" value="Kirjaudu">
+</form>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+<br>
+<a href="/create_account">Luo tunnus</a>
+{% endif %}
+<hr>
+{% block content %}{% endblock %}
+<hr>

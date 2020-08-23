@@ -1,11 +1,15 @@
 <form action="/createcourse" method="POST">
 <p>Aihe: 
-<input type="text" name="title">
+<input type="text" name="title" required>
 <br>
 Kurssin kuvaus / etusivu:
 <br>
-<textarea name="content" rows="20" cols="50"></textarea>
+<textarea name="content" rows="20" cols="50" required></textarea>
 <br>
 </p>
+Valitse onko kurssi julkinen:<select name="public" id="public">
+  <option value="True">Julkinen</option>
+  <option value="False">Suljettu</option>
+</select>
 <input type="submit" value="Luo kurssi">
 </form>

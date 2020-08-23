@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Admin sivu{% endblock %}
+{% block content %}
+
+<form action="/adminpage" method="POST">
+<a href="/">Takaisin etusivulle</a>
+<br>
+<div id="users">
+{% for user in users %}
+  {{ user.username }}
+  <input type="hidden" name="users" value="{{ user.username }}">
+  <select name="level">
+    <option value="1" {% if user.security_level|int == 1 %}selected{% endif %}>Opiskelija</option>
+    <option value="2" {% if user.security_level|int == 2 %}selected{% endif %}>Ohjaaja</option>
+    <option value="3" {% if user.security_level|int == 3 %}selected{% endif %}>Admin</option>
+  </select>
+  <br>
+{% endfor %}
+</div>
+
+<input type="submit" value="Tallenna">
+
+{% endblock %}

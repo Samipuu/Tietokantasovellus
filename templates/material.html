@@ -1,13 +1,76 @@
+{% extends "layout.html" %}
+{% block title %}{{ content[0][0] }}{% endblock %}
+{% block content %}
+
 <a href="/course/{{ id }}">Takaisin kurssiin</a>
 <br>
-<h2>{{ content[0][1] }}</h2>
+{% set list_length = content|length() + assignments|length() %}
+<h2>{{ content[0][0] }}</h2>
 <br>
+{% for block in range(0, list_length) %}
+    {% for text in content %}
+        {% if text.order_number == block + 1 %}
+            <p>
+            {{ text.content }}
+            </p>
+        {% endif %}
+    {% endfor %}
+    
+    {% set assignment = (assignments|selectattr('order_number', '==', block + 1)|first) %}
+    {% if assignment|length and assignment.order_number == block + 1 %}    
+            <h3>{{ assignment.title }}</h3>
+            <p> 
+            {{ assignment.assignment }}
+            </p>
+            <p>
+            {% set ns = namespace(disable=false) %}
+            {% set ns = namespace(val=0) %}
+            {% for answer in answers %}
+                {% if assignment.id == answer.id %}
+                    {% if answer.correct|string() == "True" %}
+                        {% set ns.disable = true %}
+                        {% set ns.val = answer.answer_id %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            <p>
+            {% for option in assignments %}
+		{% if option.id == assignment.id %}
+                    <input type="radio" name="{{ assignment.id }}" value="{{ option.option }}" id="{{ option.option_id }}" {% if ns.disable %}disabled{% endif %} {% if ns.val == option.option_id %}checked{% endif %}>
+                    <label for="{{ option.option }}">{{ option.option }}</label>
+                    <br>
+                {% endif %}
+            {% endfor %}
+            <input type="submit" name="{{ assignment.id }}" value="Lähetä vastaus" id="check" {% if ns.disable %}disabled{% endif %}>
+            </p>
+    {% endif %}    
+    
+{% endfor %} 
 
-{% for text in content %}
-<p>
-{{ text[0] }}
-</p>
+<a href="/modify/{{ id }}/{{ page_id }}">Muokkaa sivua</a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+        
+   $(function(){
+        $('[id=check]').on('click', function() {
+            answer_value = $('input[name=' + this.name + ']:checked').attr('id');
+            $.getJSON($SCRIPT_ROOT + '/check_answer', {
+               question_id: this.name,
+               answer_val: answer_value
+            }, function(data) {
+               if (data.disable == "true") {
+                   alert("Oikein!");
+                   var radios = document.getElementsByName(data.val);
+                   for (var i = 0; radios.length; i++) {
+                       radios[i].disabled = true;
+                   }
+               } else {
+               alert("Väärä vastaus. Yritä uudelleen!");
+               }
+            });
+        });
+   });
 
+</script>
 
-{% endfor %}
-
+{% endblock %}

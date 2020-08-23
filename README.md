@@ -28,4 +28,16 @@ Opetussovellus johon opettaja tunnuksilla omaavat voivat tehdä kursseja. Kaikki
 
 ### Nykytilanne
 
-Sovellukseen voi luoda kursseja ja luoda sen alle sivuja joissa on tekstisisältöä.
+Yllä mainitut lukuunottamatta kurssin oppilaiden seurantaa. Hallintaoikeus kursseihin on tällä hetkellä vain luojalla. Kursseihin ei myöskään pysty vielä lisäämään kuva tai äänimateriaalia. 
+
+Yllä mainittujen lisäksi luotuja kursseja voi muokata mikäli oikeudet riittävät.
+
+Sovelluksen ulkoasu on vielä keskeneräinen.  
+
+Oppilastason testausta voi tehdä luomalla tunnuksen etusivulla.
+
+Admin testausta tunnuksella:
+Tunnus admin
+Salasana admin
+
+Sovellus löytyy linkistä [Kurssipilvi](https://kurssipilvi.herokuapp.com/)
