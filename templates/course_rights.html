@@ -1,39 +1,60 @@
 {% extends "layout.html" %}
 {% block title %}Oikeuksien hallinta{% endblock %}
 {% block content %}
-
-<form action="/course/{{ id }}/rights" method="POST">
-<a href="/course/{{ id }}">Takaisin kurssiin</a>
-<br>
-<div id="users">
-{% for user in users %}
-  {% if user.username == None %}
-  Julkinen 
-  <input type="hidden" name="current" value="0">
-  {% elif user.username != None %}
-  {{ user.username }} 
-  <input type="hidden" name="current" value="{{ user.user_id }}">
-  {% endif %}
-  <select name="select">
-    <option value="blocked" {% if user.can_read|string == "False" %}selected{% endif %}>Estetty</option>
-    <option value="read" {% if user.can_read|string == "True" %}selected{% endif %}>Luku</option>
-  </select>
-  <br>
-{% endfor %}
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-      {{ message }}
-      <br>
+<div class="col-2">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}">Kurssin etusivu</a>
+    </li>
+    {% if (owner) or (session.level == 3) %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/rights">Oikeuksien hallinta</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/createpage">Lisää kurssisivu</a>
+    </li>
+    <hr>
+    {% endif %}
+    {% for material in materials %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a>
+    </li>
     {% endfor %}
-  {% endif %}
-{% endwith %}
+  </ul>
 </div>
-
-
-<input type="button" value="Lisää käyttäjä" onClick="adduser()">
-<input type="submit" value="Tallenna">
-
+<div class="col-10">
+  <form action="/course/{{ id }}/rights" method="POST">
+  <div id="users" class="form-group">
+  {% for user in users %}
+    <div class="form-row">
+    {% if user.username == None %}
+    <label class="col-form-label col-sm-3">Julkinen</label> 
+    <input type="hidden" name="current" value="0">
+    {% elif user.username != None %}
+    <label class="col-form-label col-sm-3">{{ user.username }}</label> 
+    <input type="hidden" name="current" value="{{ user.user_id }}">
+    {% endif %}
+    <select class="col-sm-auto" name="select">
+      <option value="blocked" {% if user.can_read|string == "False" %}selected{% endif %}>Estetty</option>
+      <option value="read" {% if user.can_read|string == "True" %}selected{% endif %}>Luku</option>
+    </select>
+    <br>
+    </div>
+  {% endfor %}
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        {{ message }}
+        <br>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+<input type="button" class="btn btn-secondary" value="Lisää käyttäjä" onClick="adduser()">
+<input type="submit" class="btn btn-primary" value="Tallenna">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+</div>
 
 
 <script>

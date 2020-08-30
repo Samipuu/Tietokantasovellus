@@ -1,15 +1,20 @@
-<form action="/createcourse" method="POST">
-<p>Aihe: 
-<input type="text" name="title" required>
-<br>
-Kurssin kuvaus / etusivu:
-<br>
-<textarea name="content" rows="20" cols="50" required></textarea>
-<br>
-</p>
-Valitse onko kurssi julkinen:<select name="public" id="public">
-  <option value="True">Julkinen</option>
-  <option value="False">Suljettu</option>
-</select>
-<input type="submit" value="Luo kurssi">
-</form>
+{% extends "layout.html" %}
+{% block title %}Luo kurssi{% endblock %}
+{% block content %}
+<div class="col-11 mx-auto">
+  <form action="/createcourse" method="POST">
+    <label>Aihe:</label> 
+    <input class="form-control" type="text" name="title" required>
+    <label>Kurssin kuvaus / etusivu:</label> 
+    <textarea class="form-control" name="content" rows="20" cols="50" required></textarea>
+    <label>  Valitse onko kurssi julkinen:</label>
+    <select class="col-sm-auto" name="public" id="public">
+      <option value="True">Julkinen</option>
+      <option value="False">Suljettu</option>
+    </select>
+    <br>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input class="btn btn-primary" type="submit" value="Luo kurssi">
+  </form>
+</div>
+{% endblock %}

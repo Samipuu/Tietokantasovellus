@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block title %}Profiili{% endblock %}
+{% block content %}
+<div class="col-11 mx-auto">
+  <form action="/profile" method="POST">
+    <div class="form-group">
+      <label for="changePassword">Nykyinen salasana:</label>
+      <input type="password" class="form-control col-2" id="changePassword" name="oldPassword">
+      <label for="newPassword">Uusi salasana:</label>
+      <input type="password" class="form-control col-2" id="newPassword" name="newPassword" required>
+      <br>
+      <input type="submit" class="btn btn-primary" value="Vaihda salasana">
+      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    </div>
+  </form>
+  <a class="btn btn-danger" href="/delete" role="button">Poista tunnus</a>
+  <br>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {{ messages[0] }}
+    {% endif %}
+  {% endwith %}
+</div>
+
+
+{% endblock %}

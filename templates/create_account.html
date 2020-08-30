@@ -1,9 +1,23 @@
-<form action="/create_account" method="POST">
-<p>Tunnus:
-<input type="text" name="username">
-</p>
-<p>Salasana:
-<input type="password" name="password">
-</p>
-<input type="submit" value="Luo tunnus">
-</form>
+{% extends "layout.html" %}
+{% block title %}Luo tunnus{% endblock %}
+{% block content %}
+<div class="col-11 mx-auto">
+  <form action="/create_account" method="POST">
+    <div class="form-group">
+      <label for="username">Tunnus:</label>
+      <input class="form-control col-2" type="text" name="username" id="username">
+      <label for="password">Salasana:</label>
+      <input type="password" class="form-control col-2" name="password">
+      <br>
+      <input class="btn btn-primary" type="submit" value="Luo tunnus">
+    <div class="form-group">
+  </form>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+</div>
+{% endblock %}

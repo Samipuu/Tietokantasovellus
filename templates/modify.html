@@ -1,30 +1,51 @@
-<head>
+{% extends "layout.html" %}
+{% block title %}Muokkaa kurssia{% endblock %}
+{% block content %}
+<div class="col-2">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ course_id }}">Kurssin etusivu</a>
+    </li>
+    {% if (owner) or (session.level == 3) %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ course_id }}/rights">Oikeuksien hallinta</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ course_id }}/createpage">Lisää kurssisivu</a>
+    </li>
+    <hr>
+    {% endif %}
+    {% for material in materials %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ course_id }}/{{ material[1] }}">{{ material[0] }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="col-10">
+  <form action="/modify/{{ course_id }}/{{ page_id }}" method="POST">
+  <p>Aihe:
+  <input type="text" name="title" value="{{ material[0][0] }}">
+  <br>
+  Sisältö:
 
-</head>
-<a href="/course/{{ course_id }}/{{ page_id }}">Takaisin kurssiin</a>
-<form action="/modify/{{ course_id}}/{{ page_id }}" method="POST">
-<p>Aihe:
-<input type="text" name="title" value="{{ material[0][0] }}">
-<br>
-Sisältö:
 
-
-<br>
-<div id="materials">
-{% set list_length = material|length() + assignments|length() %}
-{% for block in range(0, list_length) %}
+  <br>
+  <div id="materials">
+  {% set list_length = material|length() + assignments|length() %}
+  {% for block in range(0, list_length) %}
     {% for text in material %}
-        {% if text.order_number == block + 1 %}
-            <div name="textarea" class="content">
-            <textarea name="content" rows="20" cols="50">{{ text.content }}</textarea>
-            <input type="hidden" name="type" value="text">
-            </div>         
-        {% endif %}
+      {% if text.order_number == block + 1 %}
+        <div name="textarea" class="content">
+          <textarea name="content" rows="10" cols="50">{{ text.content }}</textarea>
+          <input type="hidden" name="type" value="text">
+        </div>         
+      {% endif %}
     {% endfor %}
 
     {% set assignment = (assignments|selectattr('order_number', '==', block + 1)|first) %}
     {% if assignment|length and assignment.order_number == block + 1 %}
-        <div name="assignment" class="content">
+      <div name="assignment" class="content">
         Otsikko: 
         <input type="text" name="qtitle" value="{{ assignment.title }}">
         <br>
@@ -34,39 +55,38 @@ Sisältö:
         <br>
         Vastaus: 
         <select name="answer">
-            <option value="1" {% if assignment.answer|int() == 1 %}selected{% endif %}>1</option>
-            <option value="2" {% if assignment.answer|int() == 2 %}selected{% endif %}>2</option>
-            <option value="3" {% if assignment.answer|int() == 3 %}selected{% endif %}>3</option>
+          <option value="1" {% if assignment.answer|int() == 1 %}selected{% endif %}>1</option>
+          <option value="2" {% if assignment.answer|int() == 2 %}selected{% endif %}>2</option>
+          <option value="3" {% if assignment.answer|int() == 3 %}selected{% endif %}>3</option>
         </select>
         <p>
         {% for option in assignments %}
-            {% if option.id == assignment.id %}
-                Vaihtoehto {{ option.option_id }}
-                <input type="text" name="answeropt" value="{{ option.option }}" id="{{ option.option_id }}">
-                <br>
-            {% endif %}
+          {% if option.id == assignment.id %}
+            Vaihtoehto {{ option.option_id }}
+              <input type="text" name="answeropt" value="{{ option.option }}" id="{{ option.option_id }}">
+              <br>
+          {% endif %}
         {% endfor %}
         </p>
         <input type="hidden" name="type" value="assignment">
-        </div>        
+      </div>        
     {% endif %}
     
-{% endfor %}
-
-
-</div>
+  {% endfor %}
+  </div>
 
 <br>
 
-<input type="button" value="Lisää uusi tekstisisältö" onClick="addfield()">
-<input type="button" value="Lisää tehtävä" onClick="addassignment()">
-<input type="button" value="Poista viimeisin sisältö" onClick="removefield()">
+<input type="button" class="btn btn-secondary" value="Lisää uusi tekstisisältö" onClick="addfield()">
+<input type="button" class="btn btn-secondary" value="Lisää tehtävä" onClick="addassignment()">
+<input type="button" class="btn btn-secondary" value="Poista viimeisin sisältö" onClick="removefield()">
 <br>
-<input type="submit" value="Tallenna">
+<input type="submit" class="btn btn-primary" value="Tallenna">
 <input type="hidden" name="id" value="{{ course_id }}">
 <input type="hidden" name="page_id" value="{{ page_id }}">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 </p>
-
+</div>
 <script>
 function addfield() {
 	var materials = document.getElementById("materials");
@@ -75,7 +95,7 @@ function addfield() {
 	var newfield = document.createElement("TEXTAREA");
 	var type = document.createElement("input");
 	newfield.setAttribute("name", "content");
-	newfield.setAttribute("rows", "20");
+	newfield.setAttribute("rows", "10");
 	newfield.setAttribute("cols", "50");
 	type.setAttribute("type", "hidden");
 	type.setAttribute("name", "type");
@@ -140,3 +160,5 @@ function addassignment() {
 	materials.appendChild(assignment);
 }
 </script>
+
+{% endblock %}

@@ -1,15 +1,12 @@
 {% extends "layout.html" %}
 {% block title %}Kurssit{% endblock %}
 {% block content %}
-
-<h1>Kurssit</h1>
-{% if session.level == 2 or session.level == 3 %}
-<a href="/newcourse">Luo kurssi</a>
-<br>
-{% endif %}
+<div class="col-11 mx-auto">
+<h2>Kurssit:</h1>
 {% for course in courses %}
-<a href="/course/{{ course[0] }}">{{ course[1] }}</a>
-<br>
+<h4>
+  <a href="/course/{{ course[0] }}">{{ course[1] }}</a>
+</h4>
 {% endfor %}
 
 {% endblock %}

@@ -1,29 +1,51 @@
-<head>
-
-</head>
-<form action="/course/{{ id }}/createpage/" method="POST">
-<p>Aihe:
-<input type="text" name="title" required>
-<br>
-Sisältö:
-<br>
-<div id="materials">
-    <div name="textarea">  
-      <textarea name="content" rows="20" cols="50"></textarea>
-      <input type="hidden" name="type" value="text">
-    </div>
+{% extends "layout.html" %}
+{% block title %}Luo kurssisivu{% endblock %}
+{% block content %}
+<div class="col-2">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}">Kurssin etusivu</a>
+    </li>
+    {% if (owner) or (session.level == 3) %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/rights">Oikeuksien hallinta</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/createpage">Lisää kurssisivu</a>
+    </li>
+    <hr>
+    {% endif %}
+    {% for material in materials %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a>
+    </li>
+    {% endfor %}
+  </ul>
 </div>
-
-<br>
-
-<input type="button" value="Lisää uusi tekstisisältö" onClick="addfield()">
-<input type="button" value="Lisää tehtävä" onClick="addassignment()">
-<input type="button" value="Poista viimeisin sisältö" onClick="removefield()">
-<br>
-<input type="submit" value="Luo sivu">
-<input type="hidden" name="id" value="{{ id }}">
-</p>
-
+<div class="col-10">
+  <form action="/course/{{ id }}/createpage/" method="POST">
+  <p>
+    Aihe:
+    <input type="text" name="title" required>
+    <br>
+    Sisältö:
+    <br>
+    <div id="materials">
+      <div name="textarea">  
+        <textarea name="content" rows="10" cols="50"></textarea>
+        <input type="hidden" name="type" value="text">
+      </div>
+    </div>
+    <br> 
+    <input class="btn btn-secondary" type="button" value="Lisää uusi tekstisisältö" onClick="addfield()">
+    <input class="btn btn-secondary" type="button" value="Lisää tehtävä" onClick="addassignment()">
+    <input class="btn btn-secondary" type="button" value="Poista viimeisin sisältö" onClick="removefield()">
+    <br>
+    <input class="btn btn-primary" type="submit" value="Luo sivu">
+    <input type="hidden" name="id" value="{{ id }}">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+  </p>
+</div>
 <script>
 function addfield() {
 	var materials = document.getElementById("materials");
@@ -32,7 +54,7 @@ function addfield() {
         textarea.setAttribute("name", "text");
 	var type = document.createElement("input");
 	newfield.setAttribute("name", "content");
-	newfield.setAttribute("rows", "20");
+	newfield.setAttribute("rows", "10");
 	newfield.setAttribute("cols", "50");
 	type.setAttribute("type", "hidden");
 	type.setAttribute("name", "type");
@@ -97,3 +119,4 @@ function addassignment() {
 	materials.appendChild(assignment);
 }
 </script>
+{% endblock %}

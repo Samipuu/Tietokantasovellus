@@ -1,9 +1,33 @@
 {% extends "layout.html" %}
 {% block title %}{{ content[0][0] }}{% endblock %}
 {% block content %}
+<div class="col-2">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}">Kurssin etusivu</a>
+    </li>
+    {% if (owner) or (session.level == 3) %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/rights">Oikeuksien hallinta</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/modify/{{ id }}/{{ page_id }}">Muokkaa sivua</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/createpage">Lisää kurssisivu</a>
+    </li>
+    <hr>
+    {% endif %}
+    {% for material in materials %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
 
-<a href="/course/{{ id }}">Takaisin kurssiin</a>
-<br>
+<div class="col-10">
+
 {% set list_length = content|length() + assignments|length() %}
 <h2>{{ content[0][0] }}</h2>
 <br>
@@ -18,7 +42,7 @@
     
     {% set assignment = (assignments|selectattr('order_number', '==', block + 1)|first) %}
     {% if assignment|length and assignment.order_number == block + 1 %}    
-            <h3>{{ assignment.title }}</h3>
+            <h4>{{ assignment.title }}</h4>
             <p> 
             {{ assignment.assignment }}
             </p>
@@ -41,13 +65,13 @@
                     <br>
                 {% endif %}
             {% endfor %}
-            <input type="submit" name="{{ assignment.id }}" value="Lähetä vastaus" id="check" {% if ns.disable %}disabled{% endif %}>
+            <input type="submit" class="btn btn-primary" name="{{ assignment.id }}" value="Lähetä vastaus" id="check" {% if ns.disable %}disabled{% endif %}>
             </p>
     {% endif %}    
     
 {% endfor %} 
+</div>
 
-<a href="/modify/{{ id }}/{{ page_id }}">Muokkaa sivua</a>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -64,8 +88,8 @@
                if (data.disable == "true") {
                    alert("Oikein!");
                    var radios = document.getElementsByName(data.val);
-                   for (var i = 0; radios.length; i++) {
-                       radios[i].disabled = true;
+                   for (var i = 0; i < radios.length - 1; i++) {
+                       radios[i].disabled = true
                    }
                } else {
                alert("Väärä vastaus. Yritä uudelleen!");

@@ -1,42 +1,41 @@
 # Opetussovellus
 
-Opetussovellus johon opettaja tunnuksilla omaavat voivat tehdä kursseja. Kaikki voivat vapaasti liittyä. 
+Opetussovellus johon opettaja tunnukset omaavat voivat tehdä kursseja. Kaikki voivat vapaasti luoda oppilas tunnukset. Ilman tunnuksia pääsee tutkailemaan julkisia kursseja.
 
 ## Toiminnallisuudet
 
 * Web-käyttöliittymä
-* Mahdollisuus liittyä oppilaana
-* Vapaita kursseja ja kursseja joihin pääsee vain opettajan kutsulla
+* Mahdollisuus luoda oppilas tunnukset
+* Vapaita kursseja ja kursseja joihin pääsee vain opettajan annettua oikeudet
 * Oppilas/Opettaja/Admin tason tunnukset
-* Kurssin materiaalissa tuetaan tekstiä, kuvia ja ääninäytteitä
+* Kurssin materiaalissa tuetaan tekstiä ja tehtäviä
 * Erilaisia tehtäviä jotka ovat automaattisesti tarkastettuja
+* Vastaukset tallentuvat tietokantaan
+* Kurssia pystyy muokkaamaan jälkikäteen
+* Omat tunnukset voi poistaa / Tunnuksen salasanan voi vaihtaa
 
 ### Oppilas
 
 * Mahdollista opiskella kursseja
-* Liittyä vapaisiin kursseihin
+* Tehdä vapaita kursseja / Kursseja johon opettaja on lisännyt oikeudet
 
 ### Opettaja
 
 * Mahdollisuus luoda uusia kursseja
 * Mahdollisuus hallita itse luotuja / kursseja joihin on hallinnointioikeus
-* Hallinnassa olevien kurssien oppilaiden suoriutumisen seuranta
+* Mahdollisuus muokata luodun kurssin sisältöä ja lisätä alasivuja.
 
 ### Admin
 * Oikeuksien hallinta
 * Kaikkien kurssien hallinta
 
-### Nykytilanne
+### Testaus
 
-Yllä mainitut lukuunottamatta kurssin oppilaiden seurantaa. Hallintaoikeus kursseihin on tällä hetkellä vain luojalla. Kursseihin ei myöskään pysty vielä lisäämään kuva tai äänimateriaalia. 
+Kuka tahansa voi vapaasti luoda oppilas tason tunnuksen.
 
-Yllä mainittujen lisäksi luotuja kursseja voi muokata mikäli oikeudet riittävät.
-
-Sovelluksen ulkoasu on vielä keskeneräinen.  
-
-Oppilastason testausta voi tehdä luomalla tunnuksen etusivulla.
-
-Opettaja / Ohjaaja tason testausta nostamalla luodun tunnuksen tasoa admin tunnuksella hallinnan kautta. 
+Opettaja tason testitunnus:
+Tunnus opettaja
+Salasana testi 
 
 Admin testausta tunnuksella:
 Tunnus admin

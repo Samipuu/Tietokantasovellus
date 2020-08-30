@@ -1,24 +1,31 @@
 {% extends "layout.html" %}
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-
-<a href="/courses">Takaisin kursseihin</a>
-<br>
-<a href="/course/{{ id }}/rights">Muokkaa kurssin oikeuksia</a>
-<br>
-{{ title }}
-<br>
-<br>
-{{ content }}
-<br>
-<br>
-Kurssin materiaalit:
-<ul>
-{% for material in materials %}
-<li><a href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a></li>
-{% endfor %}
-</ul>
-{% if (owner) or (session.level == 3) %}
-<a href="/course/{{ id }}/createpage">Lisää kurssisivu</a>
-{% endif %}
+<div class="col-2">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}">Kurssin etusivu</a>
+    </li>
+    {% if (owner) or (session.level == 3) %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/rights">Oikeuksien hallinta</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/createpage">Lisää kurssisivu</a>
+    </li>
+    <hr>
+    {% endif %}    
+    {% for material in materials %}
+    <li class="nav-item">
+      <a class="nav-link" href="/course/{{ id }}/{{ material[1] }}">{{ material[0] }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<div class="col-10">
+  <h2>{{ title }}</h2>
+  <p>
+  {{ content }}
+  </p>
+</div>
 {% endblock %}

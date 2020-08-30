@@ -1,33 +1,68 @@
 <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="shorcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
 <title>Kurssipilvi - {% block title %}{% endblock %}</title>
-{% if session.username %}
-<p>Olet kirjautunut nimellä {{ session.username }}</p>
-<a href="/logout">Kirjaudu ulos</a>
-
-  {% if session.level == 3 %}
-    <br>
-    <a href="/adminpage">Hallitse käyttäjätilejä</a>
-  {% endif %}
-{% else %}
-<form action="/login" method="POST">
-<p>Tunnus: 
-<input type="text" name="username"></p>
-<p>Salasana:
-<input type="password" name="password"></p>
-<input type="submit" value="Kirjaudu">
-</form>
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul class=flashes>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
+<body>
+  <header class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Kurssipilvi</a>
+        <ul class="navbar-nav mr-auto">
+        {% if session.username %}
+          {% if session.level == 3 %}
+            <li class="nav-item">
+              <a class="nav-link" href="/adminpage">Hallitse käyttäjätilejä</a>
+            </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/courses">Kurssit</a>
+          </li>
+        {% if session.username %}
+          {% if session.level == 2 or session.level == 3 %}
+          <li class="nav-item">
+            <a class="nav-link" href="/newcourse">Luo kurssi</a>
+          </li>
+          {% endif %}
+        {% endif %}
         </ul>
-    {% endif %}
-{% endwith %}
-<br>
-<a href="/create_account">Luo tunnus</a>
-{% endif %}
-<hr>
-{% block content %}{% endblock %}
-<hr>
+        <ul class="navbar-nav">
+          <a class="nav-link" href="/profile">{{ session.username }}</a>
+          <a class="nav-link" href="/logout">Kirjaudu ulos</a>
+        </ul>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/courses">Kursseihin</a>
+          </li>
+        </ul>
+        <form class="form-inline" action="/login" method="POST">
+        <span class="navbar-text">
+          Tunnus: 
+        </span>
+        <input class="form-control form-control-sm" type="text" name="username">
+        <span class="navbar-text">
+          Salasana:
+        </span>
+        <input class="form-control form-control-sm" type="password" name="password">
+        <input class="form-control form-control-sm" type="submit" value="Kirjaudu">
+        </form>
+        {% if session.username is none %}
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        {% endif %}
+        <a class="nav-link" href="/create_account">Luo tunnus</a>
+        {% endif %}
+      </header>
+<div class="container-fluid">
+  <div class="row py-md-4">
+    {% block content %}{% endblock %}
+  </div>
+</div>
+</html>
