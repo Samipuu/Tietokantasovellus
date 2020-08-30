@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS progression;
 
 
 CREATE TABLE users (id SERIAL PRIMARY KEY, username TEXT UNIQUE, password TEXT, security_level INTEGER);
-CREATE TABLE courses (id SERIAL PRIMARY KEY, title TEXT, owner INTEGER, created_ad TIMESTAMP, visible BOOLEAN, content TEXT);
+CREATE TABLE courses (id SERIAL PRIMARY KEY, title TEXT, owner INTEGER, created_at TIMESTAMP, visible BOOLEAN, content TEXT);
 CREATE TABLE pages (id SERIAL PRIMARY KEY, title TEXT, content TEXT, course_id INTEGER REFERENCES courses ON DELETE CASCADE, modified TIMESTAMP, visible BOOLEAN);
 CREATE TABLE assignments (id SERIAL PRIMARY KEY, title TEXT, assignment TEXT, type TEXT, answer INTEGER, course_id INTEGER, page_id INTEGER, order_number INTEGER);
 CREATE TABLE content (content TEXT, course_id INTEGER REFERENCES courses ON DELETE CASCADE, page_id INTEGER REFERENCES PAGES ON DELETE CASCADE, order_number INTEGER, content_type TEXT);

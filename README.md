@@ -22,7 +22,7 @@ Opetussovellus johon opettaja tunnukset omaavat voivat tehdä kursseja. Kaikki v
 ### Opettaja
 
 * Mahdollisuus luoda uusia kursseja
-* Mahdollisuus hallita itse luotuja / kursseja joihin on hallinnointioikeus
+* Mahdollisuus hallita itse luotuja kursseja
 * Mahdollisuus muokata luodun kurssin sisältöä ja lisätä alasivuja.
 
 ### Admin
@@ -40,5 +40,8 @@ Salasana testi
 Admin testausta tunnuksella:
 Tunnus admin
 Salasana admin
+
+Luotu myös kaksi testi kurssia avoin ja suljettu.
+Avoin luotu opettaja tunnuksella ja suljettu admin tunnuksella.
 
 Sovellus löytyy linkistä [Kurssipilvi](https://kurssipilvi.herokuapp.com/)
